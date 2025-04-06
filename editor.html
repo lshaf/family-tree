@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Family Tree Editor</title>
+  <script src="https://balkan.app/js/FamilyTree.js"></script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+    #tree {
+      width: 100%;
+      height: 100%;
+    }
+    .save-button {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 10;
+      padding: 10px 20px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <button class="save-button" onclick="saveTree()">💾 Save</button>
+  <div id="tree"></div>
+
+  <script>
+    async function loadTreeData() {
+      const res = await fetch('tree.json');
+      return await res.json();
+    }
+
+    function saveTree() {
+      if (window.treeInstance) {
+        window.treeInstance.exportJSON("tree.json");
+      }
+    }
+
+    loadTreeData().then(data => {
+      window.treeInstance = new FamilyTree(document.getElementById("tree"), {
+        mode: "dark",
+        template: "john",
+        enableSearch: true,
+        mouseScrool: FamilyTree.action.scroll,
+        nodeTreeMenu: true,
+        editForm: {
+          titleBinding: "name",
+          photoBinding: "photo",
+          elements: [
+            { type: "textbox", label: "Name", binding: "name" },
+            { type: "textbox", label: "Photo URL", binding: "photo" },
+            {
+              type: "select", label: "Gender", binding: "gender", options: [
+                { value: "male", text: "Male" },
+                { value: "female", text: "Female" }
+              ]
+            },
+            { type: "date", label: "Birthdate", binding: "birthdate" },
+            { type: "date", label: "Deathdate", binding: "deathdate" }
+          ]
+        },
+        nodeBinding: {
+          field_0: "name",
+          field_1: "birthdate",
+          img_0: "photo"
+        },
+        nodes: data
+      });
+    });
+  </script>
+</body>
+</html>
