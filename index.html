@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Family Tree Editor</title>
-  <script src="https://balkan.app/js/FamilyTree.js"></script>
+  <title>Family Tree</title>
+  <script src="/assets/FamilyTree.js"></script>
   <style>
     html, body {
       margin: 0;
@@ -34,22 +34,8 @@
         template: "john",
         enableSearch: true,
         mouseScrool: FamilyTree.action.scroll,
-        nodeTreeMenu: true,
         editForm: {
-          titleBinding: "name",
-          photoBinding: "photo",
-          elements: [
-            { type: "textbox", label: "Name", binding: "name" },
-            { type: "textbox", label: "Photo URL", binding: "photo" },
-            {
-              type: "select", label: "Gender", binding: "gender", options: [
-                { value: "male", text: "Male" },
-                { value: "female", text: "Female" }
-              ]
-            },
-            { type: "date", label: "Birthdate", binding: "birthdate" },
-            { type: "date", label: "Deathdate", binding: "deathdate" }
-          ]
+            readOnly: true,
         },
         nodeBinding: {
           field_0: "name",
